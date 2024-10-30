@@ -1,69 +1,44 @@
-| Supported Targets | ESP32 | ESP32-C2 | ESP32-C3 | ESP32-C6 | ESP32-H2 | ESP32-P4 | ESP32-S2 | ESP32-S3 |
-| ----------------- | ----- | -------- | -------- | -------- | -------- | -------- | -------- | -------- |
+# ESP32-blink Example - `blink`
+blink คือฟังก์ชันสำหรับควบคุมการกระพริบของไฟ LED บนบอร์ด ESP32 โดยทั่วไปโปรแกรมตัวอย่าง "ESP32-blink" จะใช้ในการแสดงวิธีการเปิดและปิด LED เป็นจังหวะ (กระพริบ) เพื่อเป็นพื้นฐานในการเรียนรู้การใช้งาน GPIO (General Purpose Input/Output) ของ ESP32
+## ขั้นตอนการใช้งาน
+1. เริ่มต้นโดยการเลือกตัวอย่าง `blink`
+# ![Screenshot 2024-10-30 204013](https://github.com/user-attachments/assets/6ab7fdb2-87f9-4334-adc1-fe5d772e3c92)
 
-# Blink Example
+# ![Screenshot 2024-10-30 204020](https://github.com/user-attachments/assets/4c44b34f-0353-417c-ae5d-726295d21c61)
 
-(See the README.md file in the upper level 'examples' directory for more information about examples.)
 
-This example demonstrates how to blink a LED by using the GPIO driver or using the [led_strip](https://components.espressif.com/component/espressif/led_strip) library if the LED is addressable e.g. [WS2812](https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf). The `led_strip` library is installed via [component manager](main/idf_component.yml).
+2. หลังจากเลือกตัวอย่างแล้ว ให้กดปุ่ม **Create**
+# ![Screenshot 2024-10-30 204026](https://github.com/user-attachments/assets/670fe032-49a2-4536-97ba-50ebdc22777e)
 
-## How to Use Example
 
-Before project configuration and build, be sure to set the correct chip target using `idf.py set-target <chip_name>`.
+3. ตรวจสอบโค้ดในไฟล์ `main.c`
+# ![Screenshot 2024-10-30 204822](https://github.com/user-attachments/assets/33c880f2-2038-4c64-a52a-af452c2350d7)
 
-### Hardware Required
+### การเเก้ไขไฟล์ เพื่อกำหนดขาให้ไฟ LED กระพริบ
+# เพิ่มการต่อสายไฟเพื่อใช้งาน
 
-* A development board with normal LED or addressable LED on-board (e.g., ESP32-S3-DevKitC, ESP32-C6-DevKitC etc.)
-* A USB cable for Power supply and programming
+ต่อ LED ตาม GPIO ดังนี้:
 
-See [Development Boards](https://www.espressif.com/en/products/devkits) for more information about it.
+| GPIO Pin | LED  |
+|----------|------|
+| GPIO 18  | LED 1|
 
-### Configure the Project
+# ![Screenshot 2024-10-30 205513](https://github.com/user-attachments/assets/eba9b968-c2e4-4b38-9f96-a4f2b8074ad5)
+### หรือการกำหนดตั้งค่า
+ไปที่ ESP-IDF: SDK configuration editor (menuconfig) เพื่อตั้งค่าการใช้งานสำหรับโปรเจกต์ blink ตรวจสอบการตั้งค่าในส่วนที่เรียกว่า "Example Configuration" เพื่อกำหนดค่า GPIO
+# ![image](https://github.com/user-attachments/assets/5081571b-c21f-4be2-8843-7fb3c5d7d55a)
 
-Open the project configuration menu (`idf.py menuconfig`).
+## ทดสอบ Build และรันโปรแกรม
 
-In the `Example Configuration` menu:
+กด Build และรันโปรแกรม จากนั้นเลือก **UART**
 
-* Select the LED type in the `Blink LED type` option.
-  * Use `GPIO` for regular LED
-  * Use `LED strip` for addressable LED
-* If the LED type is `LED strip`, select the backend peripheral
-  * `RMT` is only available for ESP targets with RMT peripheral supported
-  * `SPI` is available for all ESP targets
-* Set the GPIO number used for the signal in the `Blink GPIO number` option.
-* Set the blinking period in the `Blink period in ms` option.
+### ผลลัพธ์ที่ได้
+ผลลัพธ์จากการรันจะมีลักษณะดังนี้:
+# ![Screenshot 2024-10-30 205522](https://github.com/user-attachments/assets/3c98aed5-add9-424d-980c-74019ae86ee2)
 
-### Build and Flash
 
-Run `idf.py -p PORT flash monitor` to build, flash and monitor the project.
+ตัวอย่างคลิปวิดีโอ
+# [https://drive.google.com/file/d/1NpNbqrlGodH6-1CDzuCmTdsoyTsczfeO/view?usp=sharing](https://drive.google.com/file/d/1XXG5rbf2D7QSyIruq1jWFhhFJzw1hpIm/view?usp=sharing)
 
-(To exit the serial monitor, type ``Ctrl-]``.)
-
-See the [Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/latest/get-started/index.html) for full steps to configure and use ESP-IDF to build projects.
-
-## Example Output
-
-As you run the example, you will see the LED blinking, according to the previously defined period. For the addressable LED, you can also change the LED color by setting the `led_strip_set_pixel(led_strip, 0, 16, 16, 16);` (LED Strip, Pixel Number, Red, Green, Blue) with values from 0 to 255 in the [source file](main/blink_example_main.c).
-
-```text
-I (315) example: Example configured to blink addressable LED!
-I (325) example: Turning the LED OFF!
-I (1325) example: Turning the LED ON!
-I (2325) example: Turning the LED OFF!
-I (3325) example: Turning the LED ON!
-I (4325) example: Turning the LED OFF!
-I (5325) example: Turning the LED ON!
-I (6325) example: Turning the LED OFF!
-I (7325) example: Turning the LED ON!
-I (8325) example: Turning the LED OFF!
-```
-
-Note: The color order could be different according to the LED model.
-
-The pixel number indicates the pixel position in the LED strip. For a single LED, use 0.
-
-## Troubleshooting
-
-* If the LED isn't blinking, check the GPIO or the LED type selection in the `Example Configuration` menu.
-
-For any technical queries, please open an [issue](https://github.com/espressif/esp-idf/issues) on GitHub. We will get back to you soon.
+### สรุปการทดลอง
+BLINK LED สามารถการตั้งค่าและควบคุมการกระพริบของ LED สำหรับ ESP32 ซึ่งปรับใช้งานได้ทั้ง LED GPIO และ addressable LED strip ขึ้นอยู่กับการตั้งค่าของโปรเจกต์เเละความต้องการ
